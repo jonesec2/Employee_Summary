@@ -1,7 +1,7 @@
 const inquirer = require("inquirer")
 const jest = require("jest")
 const fs = require("fs")
-const employee = require("./employee")
+const employee = require("./lib/Employee")
 
 function userPrompts() {
     return inquirer.prompt([
