@@ -135,10 +135,17 @@ async function employeeTeam() {
 
         if (userInput.restart === "Yes") {
             await employeeTeam();    
+            return;
         } 
+
+        teamMembies
+            .filter(e => e.role === "Manager")
+            .map(e => console.log(e.name))
     }
     catch (err) {
         console.log(err);
     }
 }
 employeeTeam();
+
+
