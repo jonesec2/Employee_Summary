@@ -1,7 +1,10 @@
 const inquirer = require("inquirer")
 const jest = require("jest")
 const fs = require("fs")
-const employee = require("./lib/Employee")
+const Employee = require("./lib/Employee")
+const Intern = require('./lib/Intern')
+const Manager = require('./lib/Manager')
+const Engineer = require('./lib/Engineer')
 
 function userPrompts() {
     return inquirer.prompt([
@@ -81,17 +84,58 @@ function userPrompts() {
 }
 
 
+
+
+
+let teamMembies = []
+
+const employeeResolver = (userInput) => {
+    if (userInput.role === "Manager") {
+        return new Manager(
+            userInput.name,
+            userInput.id,
+            userInput.email,
+            userInput.officeNumber
+        )
+    }
+    
+    if (userInput.role === "Engineer") {
+        return new Engineer(
+            userInput.name,
+            userInput.id,
+            userInput.email,
+            userInput.github
+        )
+    }
+    
+    if (userInput.role === "Intern") {
+        return new Intern(
+            userInput.name,
+            userInput.id,
+            userInput.email,
+            userInput.school
+
+        )
+    }
+
+    throw new Error("Please enter a valid employee role (Manager, Engineer, Intern)");
+}
+
+
 async function employeeTeam() {
     try {
         const userInput = await userPrompts();
-        if (userInput.restart === "Yes") {
-            await employeeTeam();
-        } 
         console.log(userInput.name);
         console.log(userInput.role);
         console.log(userInput.email);
         console.log(userInput.id);
         console.log(userInput.suh);
+
+        teamMembies.push(employeeResolver(userInput))
+
+        if (userInput.restart === "Yes") {
+            await employeeTeam();    
+        } 
     }
     catch (err) {
         console.log(err);
