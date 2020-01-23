@@ -14,7 +14,7 @@ function userPrompts() {
             message: "What is the employee's name?",
             type: "input",
             name: "name",
-            validate: function validateFirstName(name){
+            validate: function validateFirstName(name) {
                 return name !== '';
             }
         },
@@ -22,7 +22,7 @@ function userPrompts() {
             message: "What is employee's Id?",
             type: "input",
             name: "id",
-            validate: function validateFirstName(id){
+            validate: function validateFirstName(id) {
                 return id !== '';
             }
         },
@@ -30,22 +30,22 @@ function userPrompts() {
             message: "What is employee's email?",
             type: "string",
             name: "email",
-            validate: function validateFirstName(email){
+            validate: function validateFirstName(email) {
                 return email !== '';
             }
         },
     ])
-    .then(answer => {
-        if (answer === "Manager") {
-            return teamManager();
-        }
-        else if (answer === "Engineer") {
-            return teamEngineer();
-        }
-        else if (answer === "Intern") {
-            return teamIntern();
-        }
-    })
+        .then(answer => {
+            if (answer === "Manager") {
+                return teamManager();
+            }
+            else if (answer === "Engineer") {
+                return teamEngineer();
+            }
+            else if (answer === "Intern") {
+                return teamIntern();
+            }
+        })
 }
 
 async function teamManager() {
@@ -54,24 +54,10 @@ async function teamManager() {
             message: "What is the Manager's Office Number?",
             type: "string",
             name: "officeNumber",
-            validate: function validateFirstName(officeNumber){
+            validate: function validateFirstName(officeNumber) {
                 return officeNumber !== '';
-            },
-            when : function(answers) {
-                return answers.role === "Manager"
             }
         },
-        {
-            message: "What is the Intern's School?",
-            type: "string",
-            name: "school",
-            validate: function validateFirstName(school){
-                return school !== '';
-            },
-            when : function(answers) {
-                return answers.role === "Intern"
-            }
-        }
     ])
 }
 
@@ -81,41 +67,55 @@ async function teamEngineer() {
             message: "What is the Engineer's gitHub Username?",
             type: "string",
             name: "gitHub",
-            validate: function validateFirstName(gitHub){
+            validate: function validateFirstName(gitHub) {
                 return gitHub !== '';
-            },
-            when : function(answers) {
-                return answers.role === "Engineer"
             }
         },
     ])
+}
 
-async function restart() {
+async function teamEngineer() {
     return inquirer.prompt([
         {
-            message: "If you need to add more members, select Yes. Otherwise select No and we'll generate your team profile.",
-            type: "list",
-            choices: ["Yes", "No"],
-            name: "restart",
-            validate: function validateFirstName(name){
-                return name !== '';
+            message: "What is the Intern's School?",
+            type: "string",
+            name: "school",
+            validate: function validateFirstName(school) {
+                return school !== '';
             },
-        },
+            when: function (answers) {
+                return answers.role === "Intern"
+            }
+        }
     ])
 }
 
+async function restart() {
+            return inquirer.prompt([
+                {
+                    message: "If you need to add more members, select Yes. Otherwise select No and we'll generate your team profile.",
+                    type: "list",
+                    choices: ["Yes", "No"],
+                    name: "restart",
+                    validate: function validateFirstName(name) {
+                        return name !== '';
+                    },
+                },
+            ])
+        }
+
 
 async function employeeTeam() {
-    try {
-        const userInput = await userPrompts();
-        console.log(userInput.name);
-        console.log(userInput.role);
-        console.log(userInput.email);
-        console.log(userInput.id);
-        console.log(userInput.suh);
-    }
-    catch (err) {
-        console.log(err);
-    }
-}
+            try {
+                const userInput = await userPrompts();
+                console.log(userInput.name);
+                console.log(userInput.role);
+                console.log(userInput.email);
+                console.log(userInput.id);
+                console.log(userInput.suh);
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
 employeeTeam();
