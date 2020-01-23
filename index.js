@@ -1,6 +1,7 @@
 const inquirer = require("inquirer")
 const jest = require("jest")
 const fs = require("fs")
+const employee = require("./employee")
 
 function userPrompts() {
     return inquirer.prompt([
@@ -34,48 +35,28 @@ function userPrompts() {
                 return email !== '';
             }
         },
-    ])
-        .then(answer => {
-            if (answer === "Manager") {
-                return teamManager();
-            }
-            else if (answer === "Engineer") {
-                return teamEngineer();
-            }
-            else if (answer === "Intern") {
-                return teamIntern();
-            }
-        })
-}
-
-async function teamManager() {
-    return inquirer.prompt([
         {
             message: "What is the Manager's Office Number?",
             type: "string",
             name: "officeNumber",
             validate: function validateFirstName(officeNumber) {
                 return officeNumber !== '';
+            },
+            when: function (answer) {
+                return answer.role === "Manager";
             }
         },
-    ])
-}
-
-async function teamEngineer() {
-    return inquirer.prompt([
         {
             message: "What is the Engineer's gitHub Username?",
             type: "string",
             name: "gitHub",
             validate: function validateFirstName(gitHub) {
                 return gitHub !== '';
+            },
+            when: function (answer) {
+                return answer.role === "Engineer";
             }
         },
-    ])
-}
-
-async function teamEngineer() {
-    return inquirer.prompt([
         {
             message: "What is the Intern's School?",
             type: "string",
@@ -84,38 +65,36 @@ async function teamEngineer() {
                 return school !== '';
             },
             when: function (answers) {
-                return answers.role === "Intern"
+                return answers.role === "Intern";
             }
-        }
+        },
+        {
+            message: "If you need to add more members, select Yes. Otherwise select No and we'll generate your team profile.",
+            type: "list",
+            choices: ["Yes", "No"],
+            name: "restart",
+            validate: function validateFirstName(name) {
+                return name !== '';
+            },
+        },
     ])
 }
 
-async function restart() {
-            return inquirer.prompt([
-                {
-                    message: "If you need to add more members, select Yes. Otherwise select No and we'll generate your team profile.",
-                    type: "list",
-                    choices: ["Yes", "No"],
-                    name: "restart",
-                    validate: function validateFirstName(name) {
-                        return name !== '';
-                    },
-                },
-            ])
-        }
-
 
 async function employeeTeam() {
-            try {
-                const userInput = await userPrompts();
-                console.log(userInput.name);
-                console.log(userInput.role);
-                console.log(userInput.email);
-                console.log(userInput.id);
-                console.log(userInput.suh);
-            }
-            catch (err) {
-                console.log(err);
-            }
-        }
+    try {
+        const userInput = await userPrompts();
+        if (userInput.restart === "Yes") {
+            await employeeTeam();
+        } 
+        console.log(userInput.name);
+        console.log(userInput.role);
+        console.log(userInput.email);
+        console.log(userInput.id);
+        console.log(userInput.suh);
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
 employeeTeam();

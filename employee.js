@@ -7,21 +7,21 @@ class Employee {
 
     // get name function
     getName(){
-
+        return this.name;
     }
 
     // get employee by ID
     getId(){
-
+        return this.id;
     }
 
     // get employees email
     getEmail() {
-
+        return this.email;
     }
 
     // returns "Employee"
     getRole(){
-
+        return "Employee"
     }
 }
