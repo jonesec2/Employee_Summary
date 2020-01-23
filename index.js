@@ -94,7 +94,7 @@ let teamMembies = []
 const employeeResolver = (userInput) => {
     if (userInput.role === "Manager") {
         return new Manager(
-            userInput.role,
+            // userInput.role,
             userInput.name,
             userInput.id,
             userInput.email,
@@ -104,7 +104,7 @@ const employeeResolver = (userInput) => {
 
     if (userInput.role === "Engineer") {
         return new Engineer(
-            userInput.role,
+            // userInput.role,
             userInput.name,
             userInput.id,
             userInput.email,
@@ -114,7 +114,7 @@ const employeeResolver = (userInput) => {
 
     if (userInput.role === "Intern") {
         return new Intern(
-            userInput.role,
+            // userInput.role,
             userInput.name,
             userInput.id,
             userInput.email,
