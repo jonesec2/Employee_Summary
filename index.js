@@ -266,20 +266,25 @@ async function employeeTeam() {
     try {
         const userInput = await userPrompts();
 
-        teamMembies.push(employeeResolver(userInput))
 
         if (userInput.restart === "Yes") {
+            teamMembies.push(employeeResolver(userInput))
+            console.log(teamMembies)
             await employeeTeam();
             return;
         }
+        if (userInput.restart === "No") {
+            teamMembies.push(employeeResolver(userInput))
+        //     teamMembies
+            console.log(teamMembies)
+        //     .filter(e => e.role === "Manager")
+        //     .map(e => console.log(Manager));
 
-        teamMembies
-            .filter(e => e.role === "Manager")
-            .map(e => console.log(Manager))
-
-        teamMembies
-            .filter(e => e.role === "Engineer")
-            .map(e => console.log(Engineer))
+        // teamMembies
+        //     .filter(e => e.role === "Engineer")
+        //     .map(e => console.log(Engineer));
+        //     console.log(teamMembies)
+        }
 
     }
     catch (err) {
