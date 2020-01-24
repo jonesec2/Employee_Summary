@@ -55,9 +55,9 @@ function userPrompts() {
         {
             message: "What is the Engineer's gitHub Username?",
             type: "string",
-            name: "gitHub",
-            validate: function validateFirstName(gitHub) {
-                return gitHub !== '';
+            name: "github",
+            validate: function validateFirstName(github) {
+                return github !== '';
             },
             when: function (answer) {
                 return answer.role === "Engineer";
@@ -116,9 +116,9 @@ const employeeResolver = (userInput) => {
             userInput.id,
             userInput.email,
             userInput.school
-
         )
     }
+
     throw new Error("Please enter a valid employee role (Manager, Engineer, Intern)");
 }
 
@@ -238,16 +238,15 @@ async function employeeTeam() {
             if (membie.getRole() === "Engineer") {
                 specialText =`gitHub Account: ${membie.getGithub()}`;
             }
-            return `                
-                <div class="card mx-auto my-3" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Manager <i class="fas fa-tasks"></i></h5>
-                        <hr>
-                        <p class="card-text">Name: ${membie.name} ID: ${membie.id}</p>
-                        <p class="card-text">Email: ${membie.email}</p>
-                        <p class="card-text">${specialText}</p>
-                    </div>
-                </div>`
+            return `<div class="card mx-auto my-3" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Manager <i class="fas fa-tasks"></i></h5>
+                            <hr>
+                            <p class="card-text">Name: ${membie.name} ID: ${membie.id}</p>
+                            <p class="card-text">Email: ${membie.email}</p>
+                            <p class="card-text">${specialText}</p>
+                        </div>
+                    </div>`
         });
         console.log("full html", fullHtml)
     }
