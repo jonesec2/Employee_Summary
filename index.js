@@ -122,52 +122,6 @@ const employeeResolver = (userInput) => {
     throw new Error("Please enter a valid employee role (Manager, Engineer, Intern)");
 }
 
-
-
-// trying this out
-// testing later
-////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////
-async function createMain() {
-    try {
-        const something = await roleHTML();
-        fs.readFile("manager.html", "utf8", (err, data) => {
-            if (err) {
-                throw err;
-            }
-            fs.appendFile("index.html", data, function (err) {
-                if (err) {
-                    throw err;
-                }
-            })
-        });
-        fs.readFile("engineer.html", "utf8", (err, data) => {
-            if (err) {
-                throw err;
-            }
-            fs.appendFile("index.html", data, function (err) {
-                if (err) {
-                    throw err;
-                }
-            })
-        });
-        fs.readFile("intern.html", "utf8", (err, data) => {
-            if (err) {
-                throw err;
-            }
-            fs.appendFile("index.html", data, function (err) {
-                if (err) {
-                    throw err;
-                }
-            })
-        });
-
-    }
-    catch (err) {
-        console.log(err)
-    }
-}
-
 // responding to userPrompts
 // will call userPrompts if user wants to make another member
 // every time a user is created that user info is passed to employeeResolver and then pushed to the array with the correct role and info
@@ -213,7 +167,6 @@ async function employeeTeam() {
         });
 
         
-        // console.log("full html", membyHtmlArray)
         const htmlText = fs.readFileSync('./templates/index.html', "utf8");
 
         console.log("type of output", htmlText)
