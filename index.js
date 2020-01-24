@@ -119,94 +119,51 @@ const employeeResolver = (userInput) => {
 
         )
     }
-
     throw new Error("Please enter a valid employee role (Manager, Engineer, Intern)");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
-async function roleHTML() {
-    try {
-        const html = await userPrompts();
-        const managerHTML = []
-        const internHTML = []
-        const engineerHTML = []
+// async function roleHTML() {
+//     try {
+//         const html = await userPrompts();
+//         const managerHTML = []
+//         const internHTML = []
+//         const engineerHTML = []
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-        if (html.restart === "No") {
-            teamMembies.forEach(member => {
-                if (member.role === "Manager") {
-                    let test = `                
-                <div class="card mx-auto my-3" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Manager <i class="fas fa-tasks"></i></h5>
-                        <hr>
-                        <p class="card-text">${member.name} ID: ${member.id}</p>
-                        <p class="card-text">${member.email}</p>
-                        <p class="card-text">${member.officeNumber}</p>
-                    </div>
-                </div>`
-                    managerHTML.push(test);
-                }
-                if (member.role === "Intern") {
-                    let test = `
-                    <div class="card mx-auto my-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Engineer <i class="fas fa-laptop-code"></i></h5>
-                            <hr>
-                            <p class="card-text">${member.name} ID: ${member.id}</p>
-                            <p class="card-text">${member.email}</p>
-                            <p class="card-text">${member.github}</p>
-                        </div>
-                    </div> `
-                    internHTML.push(test);
-                }
-                if (member.role === "Engineer") {
-                    let test = `
-                    <div class="card mx-auto my-3" style="width: 18rem;">
-                        <div class="card-body">
-                        <h5 class="card-title">Intern <i class="far fa-clipboard"></i></h5>
-                            <hr>
-                            <p class="card-text">${member.name} ID: ${member.id}</p>
-                            <p class="card-text">${member.email}</p>
-                            <p class="card-text">${member.github}</p>
-                        </div>
-                    </div> `
-                    engineerHTML.push(test);
-                }
-            });
-        }
-        // move to new function?
-////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////
-        fs.writeFile("manager.html", managerHTML, function (err) {
-            if (err) {
-                throw err;
-            }
+//         ////////////////////////////////////////////////////////////////////////////////////////////////
 
-            console.log("Successfully wrote to manager.html file");
-        });
-        fs.writeFile("intern.html", internHTML, function (err) {
-            if (err) {
-                throw err;
-            }
+//         // move to new function?
+//         ////////////////////////////////////////////////////////////////////////////////////////////////
+//         ////////////////////////////////////////////////////////////////////////////////////////////////
+//         fs.writeFile("manager.html", managerHTML, function (err) {
+//             if (err) {
+//                 throw err;
+//             }
 
-            console.log("Successfully wrote to manager.html file");
-        });
-        fs.writeFile("engineer.html", engineerHTML, function (err) {
-            if (err) {
-                throw err;
-            }
+//             console.log("Successfully wrote to manager.html file");
+//         });
+//         fs.writeFile("intern.html", internHTML, function (err) {
+//             if (err) {
+//                 throw err;
+//             }
 
-            console.log("Successfully wrote to manager.html file");
-        });
-////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////
-    }
-    catch (err) {
-        console.log(err);
-    }
-}
+//             console.log("Successfully wrote to manager.html file");
+//         });
+//         fs.writeFile("engineer.html", engineerHTML, function (err) {
+//             if (err) {
+//                 throw err;
+//             }
+
+//             console.log("Successfully wrote to manager.html file");
+//         });
+//         ////////////////////////////////////////////////////////////////////////////////////////////////
+//         ////////////////////////////////////////////////////////////////////////////////////////////////
+//     }
+//     catch (err) {
+//         console.log(err);
+//     }
+// }
 
 
 // trying this out
@@ -255,35 +212,46 @@ async function createMain() {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 // responding to userPrompts
 // will call userPrompts if user wants to make another member
-// every time a user is created that user info is passed to emplpoyeeResolver and then pushed to the array with the correct role and info
+// every time a user is created that user info is passed to employeeResolver and then pushed to the array with the correct role and info
 async function employeeTeam() {
     try {
         const userInput = await userPrompts();
 
+        teamMembies.push(employeeResolver(userInput))
 
         if (userInput.restart === "Yes") {
-            teamMembies.push(employeeResolver(userInput))
             console.log(teamMembies)
             await employeeTeam();
             return;
         }
-        if (userInput.restart === "No") {
-            teamMembies.push(employeeResolver(userInput))
-        //     teamMembies
-            console.log(teamMembies)
-        //     .filter(e => e.role === "Manager")
-        //     .map(e => console.log(Manager));
-
-        // teamMembies
-        //     .filter(e => e.role === "Engineer")
-        //     .map(e => console.log(Engineer));
-        //     console.log(teamMembies)
-        }
-
+        console.log(teamMembies)
+        const fullHtml = teamMembies.map(membie => {
+            let specialText = '';
+            if (membie.getRole() === "Manager") {
+                specialText =`Office Number: ${membie.getOfficeNumber()}`;
+            }
+            if (membie.getRole() === "Intern") {
+                specialText = `School: ${membie.getSchool()}`;
+            }
+            if (membie.getRole() === "Engineer") {
+                specialText =`gitHub Account: ${membie.getGithub()}`;
+            }
+            return `                
+                <div class="card mx-auto my-3" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Manager <i class="fas fa-tasks"></i></h5>
+                        <hr>
+                        <p class="card-text">Name: ${membie.name} ID: ${membie.id}</p>
+                        <p class="card-text">Email: ${membie.email}</p>
+                        <p class="card-text">${specialText}</p>
+                    </div>
+                </div>`
+        });
+        console.log("full html", fullHtml)
     }
+
     catch (err) {
         console.log(err);
     }
