@@ -94,7 +94,6 @@ let teamMembies = []
 const employeeResolver = (userInput) => {
     if (userInput.role === "Manager") {
         return new Manager(
-            // userInput.role,
             userInput.name,
             userInput.id,
             userInput.email,
@@ -104,7 +103,6 @@ const employeeResolver = (userInput) => {
 
     if (userInput.role === "Engineer") {
         return new Engineer(
-            // userInput.role,
             userInput.name,
             userInput.id,
             userInput.email,
@@ -114,7 +112,6 @@ const employeeResolver = (userInput) => {
 
     if (userInput.role === "Intern") {
         return new Intern(
-            // userInput.role,
             userInput.name,
             userInput.id,
             userInput.email,
@@ -261,7 +258,7 @@ async function createMain() {
 
 // responding to userPrompts
 // will call userPrompts if user wants to make another member
-// everytime a user is created that user info is passed to emplpoyeeResolver and then pushed to the array with the correct role and info
+// every time a user is created that user info is passed to emplpoyeeResolver and then pushed to the array with the correct role and info
 async function employeeTeam() {
     try {
         const userInput = await userPrompts();
