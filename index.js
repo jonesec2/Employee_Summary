@@ -5,6 +5,7 @@ const Employee = require("./lib/Employee")
 const Intern = require('./lib/Intern')
 const Manager = require('./lib/Manager')
 const Engineer = require('./lib/Engineer')
+const roleResolver = require('./lib/RoleResolver')
 
 
 // create function for the prompts
@@ -90,46 +91,15 @@ function userPrompts() {
 // declaring our teamMember array
 let teamMembies = []
 
-//filtering our members by role, and returning into employeeTeam
-const employeeResolver = (userInput) => {
-    if (userInput.role === "Manager") {
-        return new Manager(
-            userInput.name,
-            userInput.id,
-            userInput.email,
-            userInput.officeNumber
-        )
-    }
-
-    if (userInput.role === "Engineer") {
-        return new Engineer(
-            userInput.name,
-            userInput.id,
-            userInput.email,
-            userInput.github
-        )
-    }
-
-    if (userInput.role === "Intern") {
-        return new Intern(
-            userInput.name,
-            userInput.id,
-            userInput.email,
-            userInput.school
-        )
-    }
-
-    throw new Error("Please enter a valid employee role (Manager, Engineer, Intern)");
-}
 
 // responding to userPrompts
 // will call userPrompts if user wants to make another member
-// every time a user is created that user info is passed to employeeResolver and then pushed to the array with the correct role and info
+// every time a user is created that user info is passed to roleResolver and then pushed to the array with the correct role and info
 async function employeeTeam() {
     try {
         const userInput = await userPrompts();
 
-        teamMembies.push(employeeResolver(userInput))
+        teamMembies.push(roleResolver(userInput))
 
         if (userInput.restart === "Yes") {
             console.log(teamMembies)
