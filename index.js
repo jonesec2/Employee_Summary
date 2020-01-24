@@ -5,6 +5,7 @@ const Employee = require("./lib/Employee")
 const Intern = require('./lib/Intern')
 const Manager = require('./lib/Manager')
 const Engineer = require('./lib/Engineer')
+const HtmlTemplate = require('./templates/html-template');
 
 
 // create function for the prompts
@@ -122,48 +123,6 @@ const employeeResolver = (userInput) => {
     throw new Error("Please enter a valid employee role (Manager, Engineer, Intern)");
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////
-// async function roleHTML() {
-//     try {
-//         const html = await userPrompts();
-//         const managerHTML = []
-//         const internHTML = []
-//         const engineerHTML = []
-
-//         ////////////////////////////////////////////////////////////////////////////////////////////////
-
-//         // move to new function?
-//         ////////////////////////////////////////////////////////////////////////////////////////////////
-//         ////////////////////////////////////////////////////////////////////////////////////////////////
-//         fs.writeFile("manager.html", managerHTML, function (err) {
-//             if (err) {
-//                 throw err;
-//             }
-
-//             console.log("Successfully wrote to manager.html file");
-//         });
-//         fs.writeFile("intern.html", internHTML, function (err) {
-//             if (err) {
-//                 throw err;
-//             }
-
-//             console.log("Successfully wrote to manager.html file");
-//         });
-//         fs.writeFile("engineer.html", engineerHTML, function (err) {
-//             if (err) {
-//                 throw err;
-//             }
-
-//             console.log("Successfully wrote to manager.html file");
-//         });
-//         ////////////////////////////////////////////////////////////////////////////////////////////////
-//         ////////////////////////////////////////////////////////////////////////////////////////////////
-//     }
-//     catch (err) {
-//         console.log(err);
-//     }
-// }
 
 
 // trying this out
@@ -209,8 +168,6 @@ async function createMain() {
         console.log(err)
     }
 }
-////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////
 
 // responding to userPrompts
 // will call userPrompts if user wants to make another member
@@ -227,30 +184,49 @@ async function employeeTeam() {
             return;
         }
         console.log(teamMembies)
-        const fullHtml = teamMembies.map(membie => {
-            let specialText = '';
+        
+        const membyHtmlArray = teamMembies.map(membie => {
+            let roleText = '';
+            let roleImage = '';
+
             if (membie.getRole() === "Manager") {
-                specialText =`Office Number: ${membie.getOfficeNumber()}`;
+                roleText =`Office Number: ${membie.getOfficeNumber()}`;
+                roleImage =`<i class="fas fa-tasks"></i>`;
             }
             if (membie.getRole() === "Intern") {
-                specialText = `School: ${membie.getSchool()}`;
+                roleText = `School: ${membie.getSchool()}`;
+                roleImage =`<i class="fas fa-laptop-code"></i>`;
             }
             if (membie.getRole() === "Engineer") {
-                specialText =`gitHub Account: ${membie.getGithub()}`;
+                roleText =`gitHub Account: ${membie.getGithub()}`;
+                roleImage =`<i class="far fa-clipboard"></i>`;
             }
-            return `<div class="card mx-auto my-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Manager <i class="fas fa-tasks"></i></h5>
-                            <hr>
-                            <p class="card-text">Name: ${membie.name} ID: ${membie.id}</p>
-                            <p class="card-text">Email: ${membie.email}</p>
-                            <p class="card-text">${specialText}</p>
-                        </div>
-                    </div>`
+            return `  
+                <div class="card mx-auto my-3" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">${membie.getRole()} ${roleImage}</h5>
+                        <hr>
+                        <p class="card-text">Name: ${membie.name} ID: ${membie.id}</p>
+                        <p class="card-text">Email: ${membie.email}</p>
+                        <p class="card-text">${roleText}</p>
+                    </div>
+                </div>`
         });
-        console.log("full html", fullHtml)
-    }
 
+        
+        // console.log("full html", membyHtmlArray)
+        const htmlText = fs.readFileSync('./templates/index.html', "utf8");
+
+        console.log("type of output", htmlText)
+
+        const htmlFinal = htmlText.replace(
+            "{{{this-is-where-generated-html-goes}}}", 
+            membyHtmlArray.join(""));
+
+        fs.writeFileSync("./output/team.html", htmlFinal);
+
+    }
+    
     catch (err) {
         console.log(err);
     }
