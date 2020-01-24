@@ -7,7 +7,15 @@ const Manager = require('./lib/Manager')
 const Engineer = require('./lib/Engineer')
 const roleResolver = require('./lib/RoleResolver')
 
-
+function isEmpty(name) {
+    return name !== '';
+}
+function is6Chars(name) {
+    return name.length === 6;
+}
+function isValid(value) {
+    return isEmpty(value) || is6Chars(value)
+}
 // create function for the prompts
 // set up so if the user can add as many team members as they want
 function userPrompts() {
@@ -22,9 +30,7 @@ function userPrompts() {
             message: "What is the employee's name?",
             type: "input",
             name: "name",
-            validate: function validateFirstName(name) {
-                return name !== '';
-            }
+            validate: isValid
         },
         {
             message: "What is employee's Id?",
