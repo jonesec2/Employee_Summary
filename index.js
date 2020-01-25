@@ -145,8 +145,6 @@ async function employeeTeam() {
         
         const htmlText = fs.readFileSync('./templates/index.html', "utf8");
 
-        console.log("type of output", htmlText)
-
         const htmlFinal = htmlText.replace(
             "{{{this-is-where-generated-html-goes}}}", 
             membyHtmlArray.join(""));
