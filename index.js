@@ -7,15 +7,6 @@ const Manager = require('./lib/Manager')
 const Engineer = require('./lib/Engineer')
 const roleResolver = require('./lib/RoleResolver')
 
-function isEmpty(name) {
-    return name !== '';
-}
-function is6Chars(name) {
-    return name.length === 6;
-}
-function isValid(value) {
-    return isEmpty(value) || is6Chars(value)
-}
 // create function for the prompts
 // set up so if the user can add as many team members as they want
 function userPrompts() {
@@ -30,13 +21,14 @@ function userPrompts() {
             message: "What is the employee's name?",
             type: "input",
             name: "name",
-            validate: isValid
+            validate: function validateName(name) {
+                return name !== '';
         },
         {
             message: "What is employee's Id?",
             type: "input",
             name: "id",
-            validate: function validateFirstName(id) {
+            validate: function validateId(id) {
                 return id !== '';
             }
         },
@@ -44,7 +36,7 @@ function userPrompts() {
             message: "What is employee's email?",
             type: "string",
             name: "email",
-            validate: function validateFirstName(email) {
+            validate: function validateEmail(email) {
                 return email !== '';
             }
         },
@@ -52,7 +44,7 @@ function userPrompts() {
             message: "What is the Manager's Office Number?",
             type: "string",
             name: "officeNumber",
-            validate: function validateFirstName(officeNumber) {
+            validate: function validateNumber(officeNumber) {
                 return officeNumber !== '';
             },
             when: function (answer) {
@@ -63,7 +55,7 @@ function userPrompts() {
             message: "What is the Engineer's gitHub Username?",
             type: "string",
             name: "github",
-            validate: function validateFirstName(github) {
+            validate: function validateGit(github) {
                 return github !== '';
             },
             when: function (answer) {
@@ -74,7 +66,7 @@ function userPrompts() {
             message: "What is the Intern's School?",
             type: "string",
             name: "school",
-            validate: function validateFirstName(school) {
+            validate: function validateSchool(school) {
                 return school !== '';
             },
             when: function (answers) {
@@ -86,7 +78,7 @@ function userPrompts() {
             type: "list",
             choices: ["Yes", "No"],
             name: "restart",
-            validate: function validateFirstName(name) {
+            validate: function validateRestart(name) {
                 return name !== '';
             },
         },
@@ -108,7 +100,7 @@ async function employeeTeam() {
         teamMembies.push(roleResolver(userInput))
 
         if (userInput.restart === "Yes") {
-            console.log(teamMembies)
+            console.log("Member Added")
             await employeeTeam();
             return;
         }
