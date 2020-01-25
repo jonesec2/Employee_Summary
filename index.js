@@ -112,7 +112,7 @@ async function employeeTeam() {
             await employeeTeam();
             return;
         }
-        console.log(teamMembies)
+        console.log("Gathering your team!")
         
         const membyHtmlArray = teamMembies.map(membie => {
             let roleText = '';
@@ -144,12 +144,14 @@ async function employeeTeam() {
 
         
         const htmlText = fs.readFileSync('./templates/index.html', "utf8");
+        
 
         const htmlFinal = htmlText.replace(
             "{{{this-is-where-generated-html-goes}}}", 
             membyHtmlArray.join(""));
 
         fs.writeFileSync("./output/team.html", htmlFinal);
+        console.log("All done! Open ./output/team.html in your browser to see your Team Profile")
 
     }
     
