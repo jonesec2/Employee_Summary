@@ -23,6 +23,7 @@ function userPrompts() {
             name: "name",
             validate: function validateName(name) {
                 return name !== '';
+            }
         },
         {
             message: "What is employee's Id?",
