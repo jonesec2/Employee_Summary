@@ -19,3 +19,6 @@ Some roles will only display a unique attribute:
 * Intern: School
 
 ## Technologies Used
+
+* Programming Languages: nodejs, HTML5 / CSS3 inside template literal
+* NPM installed (see package.JSON for dependencies)
